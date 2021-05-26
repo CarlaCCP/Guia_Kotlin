@@ -1,20 +1,27 @@
 fun main() {
     println("Bem vindo ao ByteBank")
 
+    val contaAlex = Conta("Alex", 19284)
+    contaAlex.deposita(200.0)
+
+    val contaFran = Conta("Fran", 39033)
+    contaFran.deposita(300.0)
 }
 
 
-class Conta {
+class Conta(val titular: String, val numero: Int) { //construtor primário
     // por padrão todos os properties vem com get e set
-    var titular = ""
-    var numero = 0
+//    var titular = titular
+//    var numero = numero
     var saldo = 0.0
-        private set(valor){ //somente os métodos da classe irá alterar o saldo
-            if(valor >0){
-                field = valor
-            }
-        }
+        private set//somente os métodos da classe irá alterar o saldo
 
+    // Construtor secundário
+    //prefira o contrutor primário, se você só for inicializar os properties
+//    constructor(titular: String, numero: Int) {
+//        this.titular = titular
+//        this.numero = numero
+//    }
     fun deposita(valor: Double) {
         this.saldo += valor
     }
