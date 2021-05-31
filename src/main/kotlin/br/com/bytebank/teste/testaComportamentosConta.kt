@@ -1,7 +1,4 @@
-import br.com.bytebank.modelo.Cliente
-import br.com.bytebank.modelo.ContaCorrente
-import br.com.bytebank.modelo.ContaPoupanca
-import br.com.bytebank.modelo.Endereco
+import br.com.bytebank.modelo.*
 
 fun testaComportamentosConta() {
 
@@ -12,4 +9,23 @@ fun testaComportamentosConta() {
 
     val contaFran = ContaCorrente(fran, 39033)
     contaFran.deposita(300.0)
+
+    try {
+        contaFran.transfere(300.0, contaAlex,1)
+        println("Transferencia sucedida")
+
+    }catch(e : SaldoInsuficenteException){
+        println("Falha na transferencia")
+        println(e.message)
+    }
+    catch(e: FalhaAutenticacaoException){
+        println("Falha na transferencia")
+        println("Falha na autenticacao")
+    }
+    catch(e: Exception){
+        println("Erro desconhecido")
+        e.printStackTrace()
+    }
+
+
 }

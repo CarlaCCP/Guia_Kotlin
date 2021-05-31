@@ -1,10 +1,12 @@
 package br.com.bytebank.modelo
 
 
+
+
 abstract class Conta(
     val titular: Cliente, // composição
     val numero: Int
-) {
+) : Autenticavel {
 
     var saldo = 0.0
         protected set // somente a classe e suas filhas podem mexer
@@ -20,9 +22,13 @@ abstract class Conta(
     }
 
     // vai utilizar para carregar coisas já na inicialização
-    init{
-    println("Criando conta")
-    total++
+    init {
+        println("Criando conta")
+        total++
+    }
+
+    override fun autentica(senha: Int): Boolean {
+       return titular.autentica((senha))
     }
 
     fun deposita(valor: Double) {
@@ -32,15 +38,21 @@ abstract class Conta(
     abstract fun sacar(valor: Double)
 
 
-    fun transfere(valor: Double, destino: Conta): Boolean {
-        if (saldo >= valor) {
-            saldo -= valor
-            destino.deposita(valor)
-            return true
-        }
-        return false
-    }
+    fun transfere(valor: Double, destino: Conta, senha: Int) {
 
+        if (saldo < valor) {
+            throw SaldoInsuficenteException("Saldo insuficente teste")
+        }
+
+        if(!autentica(senha)){
+            throw FalhaAutenticacaoException()
+        }
+
+        saldo -= valor
+        destino.deposita(valor)
+
+
+    }
 
 
 }
